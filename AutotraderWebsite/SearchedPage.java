@@ -20,7 +20,6 @@ public class SearchedPage {
 	}
 	
 	public boolean checkModel(String model){
-		//return driver.findElement(displayedmodel).getText().toUpperCase().contains(model.toUpperCase());
-		return false;
+		return driver.findElement(displayedmodel).getText().toUpperCase().contains(model.toUpperCase());
 	}
 }
