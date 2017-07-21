@@ -20,47 +20,49 @@ public class Homepage {
 	By languagelist = By.xpath("/html/body/div[2]/div/div/div[2]/ul/li[1]/ul");
 	Wait<WebDriver> wait;
 
-	public Homepage(WebDriver driver){
-		this.driver=driver;
+	public Homepage(WebDriver driver) {
+		this.driver = driver;
 	}
-	
-	public boolean checkPageLoaded(){
+
+	public boolean checkPageLoaded() {
 		return driver.findElement(pagelogo) != null;
 	}
-	
-	public void selectCurrency(String currency){
-		Select currencyselector = new Select(driver.findElement(currencyoption));		
+
+	public void selectCurrency(String currency) {
+		Select currencyselector = new Select(driver.findElement(currencyoption));
 		driver.findElement(currencyoption).click();
 		currencyselector.selectByVisibleText(currency);
-		//wait for page to send reload request
-		driver.manage().timeouts().implicitlyWait(1,TimeUnit.SECONDS);		
+		// wait for page to send reload request
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 	}
-	//the language input is the id used for selecting language web element
-	public void selectLanguage(String language){
+
+	// the language input is the id used for selecting language web element
+	public void selectLanguage(String language) {
 		driver.findElement(languageoption).click();
 
 		wait = new WebDriverWait(driver, 25);
 		wait.until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver webDriver) {
 				System.out.println("Waiting for list to show...");
-				return driver.findElement(languagelist)!=null;
+				return driver.findElement(languagelist) != null;
 			}
 		});
 		driver.findElement(By.id(language)).click();
 	}
-	
-	public boolean checkLanguageSet(String language){
+
+	public boolean checkLanguageSet(String language) {
 		wait.until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver webDriver) {
 				System.out.println("Waiting for language text to be displayed..");
-				return driver.findElement(languagedisplaycheck)!=null;
+				return driver.findElement(languagedisplaycheck) != null;
 			}
 		});
 		return driver.findElement(displayedlanguage).getText().equals(language);
 	}
-	//the text to test against may contain numbers e.g. £50.55
-	//we only need to check that the currency sign exists
-	public boolean checkCurrencySet(String currency){
+
+	// the text to test against may contain numbers e.g. £50.55
+	// we only need to check that the currency sign exists
+	public boolean checkCurrencySet(String currency) {
 		return driver.findElement(displayedcurrency).getText().contains(currency);
-	}	
+	}
 }
